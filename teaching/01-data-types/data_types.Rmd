@@ -1,0 +1,578 @@
+---
+title: "R Data Types and Structures"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(gradethis)
+library(dplyr)
+library(tibble)
+
+gradethis::gradethis_setup()
+```
+
+
+## What is R? What is RStudio?
+
+### R: Your New Superpower
+
+R is a programming language specifically designed for data analysis and visualization. Think of it as a super-calculator that can handle massive datasets and create beautiful charts.
+
+### RStudio: Your Friendly Workspace
+
+RStudio is an application (technically called an IDE - Integrated Development Environment) that makes working with R much easier and more visual. It's like the dashboard of a car - it gives you access to all of R's power in a user-friendly way.
+
+### Why Learn R? (Instead of Excel or SPSS)
+
+- **It's completely free** and works on any computer
+- **It's powerful** - can handle big datasets 
+- **It's reproducible** - your analysis can be saved, shared, and re-run exactly
+- **It's visual** - creates beautiful, publication-quality graphics
+- **It's in demand** - a valuable skill for research, internships, and jobs
+
+Tip: Don't worry about memorizing commands! Even experienced R users look things up all the time. The goal is to understand the concepts and know where to find help.
+
+## Welcome to R Data Types and Structures!
+
+In this tutorial, you'll learn about:
+
+- Identify the four main panes in RStudio
+- Basic data types in R
+- Vectors and how to create them
+- Lists for storing mixed data
+- Data frames for tabular data
+
+
+## The Four Main Panes
+
+When you open RStudio, you'll see four main sections (panes):
+
+1. **Source/Script Editor** (top-left): Where you write, edit and save your code
+2. **Console** (bottom-left): Where R executes commands and shows results
+3. **Environment/History** (top-right): Shows your variables and previous commands
+4. **Files/Plots/Packages/Help** (bottom-right): Shows files, charts, installed packages, and help pages
+
+[RStudio Interface](https://bookdown.org/ndphillips/YaRrr/the-four-rstudio-windows.html)
+
+
+### Creating Your First Script
+
+Let's create a new R script to save our work:
+
+1. Click **File → New File → R Script**
+2. You'll see a blank document in the top-left pane
+3. Save it by clicking **File → Save As...** and name it "my_first_script.R" (or sth else)
+
+⚠️ Common Mistake: Working only in the Console. While the Console is great for quick tests, always save your important work in scripts so you can reuse it later!
+
+
+### R as a Calculator
+
+Type these commands in your script, then run them by placing your cursor on the line and pressing Ctrl+Enter (or Cmd+Enter on Mac):
+
+```{r}
+# This is a comment - R ignores anything after #
+# Comments are great for explaining your code!
+
+# Basic math operations
+2 + 2       # Addition
+10 - 5      # Subtraction
+4 * 3       # Multiplication
+10 / 2      # Division
+2^3         # Exponents (2 cubed = 8)
+10 %% 3     # Modulo (remainder after division = 1)
+```
+
+
+### Your Turn!
+
+Don't worry, I cannot see your codes :)
+
+```{r your-turn, exercise=TRUE}
+# Create x that is equal to 5 times 2
+x <- 
+
+# Create y=6
+y <- 
+
+# calculate x times y and call it 'my_calc'
+my_calc<-
+
+# Print them  
+print(x)
+print(y)
+print(my_calc)
+```
+
+
+### Creating Variables
+
+Variables let you store values for later use. In R, we use `<-` to assign values to variables (you can also use `=` but it is not cool):
+
+```{r}
+# Creating variables
+my_age <- 20
+favorite_number <- 7
+
+# Use the variables in calculations
+my_age + 10
+favorite_number * 2
+
+# You can update variables
+my_age <- my_age + 1  # Happy birthday!
+my_age
+```
+
+### Storing Text (Strings)
+
+```{r}
+# Text values need quotes
+my_name <- "Irem"
+my_major <- 'Political Science'  # Single or double quotes both work
+
+# Print the values
+my_name
+my_major
+```
+
+### Running Code
+
+1. **Line-by-line**: Place your cursor on a line and press Ctrl+Enter (Cmd+Enter on Mac)
+2. **Multiple lines**: Select several lines and press Ctrl+Enter
+3. **Entire script**: Click the "Source" button at the top of the script pane
+
+### Saving Your Work
+
+1. Save your script often with Ctrl+S (Cmd+S on Mac)
+2. When you reopen RStudio, open your saved script to continue where you left off
+
+## Data Types
+
+R has six atomic vector types: 
+
+  `typeof`  |  `mode`     |  `storage.mode`
+:-----------|:------------|:----------------
+logical     |  logical    |  logical
+double      |  numeric    |  double
+integer     |  numeric    |  integer
+character   |  character  |  character
+complex     |  complex    |  complex
+raw         |  raw        |  raw
+
+- we can check the type with `typeof()`.
+
+But for now, learn the following info:
+
+- **numeric** (numbers with decimals)
+- **integer** (whole numbers, e.g., 3.2 is not integer)
+- **character** (text)
+- **logical** (TRUE/FALSE)
+
+R treats numbers like 42 or 3.14 as numeric (double) automatically. Integers are mainly useful when: counting items (e.g., loop counters, indexes) or optimizing memory in very large datasets.
+
+Let's explore these types:
+
+```{r basic-types, exercise=TRUE}
+# Numbers
+x <- 42.5
+typeof(x) # The internal storage type (how R actually stores it in memory)
+mode(x) # The broad category of data (how R treats it in expressions)
+
+# Integer (note the L suffix)
+y <- 42L
+typeof(y)
+mode(y)
+
+# Character (text, use when you need words/names/labels instead of numbers)
+name <- "R Programming"
+typeof(name)
+
+# Logical
+is_fun <- TRUE
+typeof(is_fun)
+```
+
+
+### Your Turn!
+
+Create variables of different types and check their types:
+
+```{r your-types, exercise=TRUE, exercise.lines=6}
+# Create a numeric variable
+my_numeric <- 
+
+# Create a character variable
+my_text <- 
+
+# Check their types
+typeof(my_numeric)
+typeof(my_text)
+```
+
+```{r your-types-hint}
+# Create a numeric variable
+my_numeric <- 3.14
+
+# Create a character variable
+my_text <- "Hello, R!"
+```
+
+
+### Logical Predicates
+
+* `is.logical(x)` - returns `TRUE` if `x` has *type* logical.
+
+* `is.character(x)` - returns `TRUE` if `x` has *type* character.
+
+* `is.double(x)` - returns `TRUE` if `x` has *type* double.
+
+* `is.integer(x)` - returns `TRUE` if `x` has *type* integer.
+
+* `is.numeric(x)` - returns `TRUE` if `x` has *mode* numeric.
+
+
+```{r}
+is.integer(1)
+is.double(1)
+is.numeric(1)
+```
+
+## Vectors: Collections of Values
+
+Vectors are collections of values of the same type. Create them with the `c()` function:
+
+```{r vectors-demo, exercise=TRUE}
+# Numeric vector
+scores <- c(85, 92, 78, 95, 88)
+scores
+
+# Character vector
+names <- c("Alice", "Bob", "Charlie", "David")
+names
+
+# Logical vector
+passed <- c(TRUE, TRUE, FALSE, TRUE)
+passed
+
+# Check the length of a vector (i.e., number of values)
+length(scores)
+```
+
+### Vector Operations
+
+You can perform operations on entire vectors at once:
+
+```{r vector-ops, exercise=TRUE}
+# Create a vector of prices
+prices <- c(10.99, 5.99, 3.99, 7.99)
+
+# Add 2 to each price
+prices + 2
+
+# Calculate 10% discount
+prices * 0.9
+
+# Find the sum, mean, min, and max
+sum(prices)
+mean(prices)
+min(prices)
+max(prices)
+```
+
+### Your Turn: Create and Manipulate Vectors
+
+```{r your-vectors, exercise=TRUE, exercise.lines=8}
+# Create a vector of 5 temperatures in Celsius
+temperatures <- 
+
+# Convert to Fahrenheit (F = C * 9/5 + 32)
+fahrenheit <- 
+
+# Calculate the average temperature in Fahrenheit
+average_f <- 
+
+# Print the result
+average_f
+```
+
+```{r your-vectors-solution}
+# Create a vector of 5 temperatures in Celsius
+temperatures <- c(20, 25, 18, 22, 30)
+
+# Convert to Fahrenheit (F = C * 9/5 + 32)
+fahrenheit <- temperatures * 9/5 + 32
+
+# Calculate the average temperature in Fahrenheit
+average_f <- mean(fahrenheit)
+
+# Print the result
+average_f
+```
+
+```{r your-vectors-check}
+grade_this({
+  if (length(temperatures) == 5 && is.numeric(temperatures)) {
+    if (all(fahrenheit == temperatures * 9/5 + 32)) {
+      if (average_f == mean(fahrenheit)) {
+        pass("Perfect! You've correctly created the vector, converted to Fahrenheit, and calculated the average.")
+      } else {
+        fail("Your conversion looks good, but check your average calculation.")
+      }
+    } else {
+      fail("Check your Fahrenheit conversion formula: F = C * 9/5 + 32")
+    }
+  } else {
+    fail("Make sure to create a vector of 5 numeric temperatures.")
+  }
+})
+```
+
+## Lists: Flexible Collections
+
+Lists can store different types of data in a single object:
+
+```{r lists-demo, exercise=TRUE}
+# Create a list with different types of data
+student <- list(
+  name = "Alice",
+  age = 20,
+  grades = c(85, 92, 78),
+  passed = TRUE
+)
+
+# View the entire list
+student
+
+# Access elements by name
+student$name
+student$grades
+
+# Access elements by position
+student[[1]]  # First element (name)
+student[[3]]  # Third element (grades vector)
+
+# Access elements within elements
+student$grades[2]  # Second grade
+```
+
+### Your Turn: Create and Access a List
+
+```{r your-list, exercise=TRUE, exercise.lines=10}
+# Create a list representing a movie with:
+# - title (character)
+# - year (numeric)
+# - ratings (vector of 3 scores from 1-10)
+# - is_recommended (logical)
+movie <- 
+
+# Access the movie title
+
+# Access the second rating
+
+```
+
+```{r your-list-solution}
+# Create a list representing a movie
+movie <- list(
+  title = "The Matrix",
+  year = 1999,
+  ratings = c(9, 8, 10),
+  is_recommended = TRUE
+)
+
+# Access the movie title
+movie$title
+
+# Access the second rating
+movie$ratings[2]
+```
+
+
+## Attributes
+
+Attributes are metadata — extra information attached to an object in R.
+They help R store details like names, dimensions, class (object type, e.g., data.frame) or comments.
+
+You can view or modify them with attributes() or attr().
+
+```{r attributes, exercise=TRUE}
+# Create a named numeric vector
+x <- c(L = 1, M = 2, N = 3)
+
+# See names (a type of attribute)
+names(x)
+
+# Change names using attr()
+attr(x, "names") <- c("A", "B", "C")
+
+# Check again
+names(x)
+
+# View all attributes
+attributes(x)
+```
+
+Your Turn!
+
+```{r your-attr, exercise=TRUE}
+# Create a numeric vector of three values
+
+# Add an attribute called "source" with value "student entry"
+
+# View all attributes of your vector
+
+```
+
+
+```{r your-attr-sol, exercise=TRUE}
+# Example solution
+grades <- c(85, 90, 78)
+attr(grades, "source") <- "student entry"
+attributes(grades)
+```
+
+
+## Factors
+Factors are used to represent categorical variables — data with a limited set of values (like race, religion, or education levels).
+Internally, R stores them as integers with labels.
+
+
+```{r factor1, exercise=TRUE}
+# Create a factor
+race <- factor(c("W", "W", "B", "W", "B", "B"))
+
+race
+
+# View internal structure
+str(race)
+
+# Check internal type
+typeof(race)
+```
+
+Your Turn!
+
+```{r your-fctr, exercise=TRUE}
+# Create a factor named "education" with values like "High School", "College", "Graduate"
+
+# Check its structure
+
+# Print its internal type using typeof()
+
+```
+
+
+```{r sol-fctr, exercise=TRUE}
+education <- factor(c("High School", "College", "Graduate", "College", "Graduate"))
+str(education)
+typeof(education)
+```
+
+
+## Data Frames: Tabular Data
+
+Data frames are table-like structures for storing data:
+
+```{r df-demo, exercise=TRUE}
+# Create a data frame of student information
+students <- data.frame(
+  name = c("Alice", "Bob", "Charlie", "David"),
+  age = c(20, 22, 21, 23),
+  major = c("Statistics", "Economics", "Psychology", "Biology"),
+  gpa = c(3.8, 3.2, 3.9, 3.5)
+)
+
+# View the data frame
+students
+
+# Access a column
+students$name
+
+# Access a specific cell
+students$gpa[3]  # Charlie's GPA
+
+# Filter rows
+students[students$gpa > 3.5, ]
+
+# Add a new column
+students$honors <- students$gpa >= 3.8
+students
+```
+
+### Your Turn: Create and Manipulate a Data Frame
+
+```{r your-df, exercise=TRUE, exercise.lines=12}
+# Create a data frame of countries with:
+# - country_name
+# - population (in millions)
+# - continent
+# - democracy_index (0-1 scale)
+countries <- 
+
+# Filter for countries in Europe
+
+# Calculate the average democracy_index
+
+```
+
+```{r your-df-solution}
+# Create a data frame of countries
+countries <- data.frame(
+  country_name = c("Sweden", "United States", "Turkey", "China", "Russia"),
+  population = c(10, 331, 84, 1441, 146),
+  continent = c("Europe", "North America", "Asia", "Asia", "Europe"),
+  democracy_index = c(0.87, 0.73, 0.26, 0.05, 0.12)
+)
+
+# Filter for countries in Europe
+european_countries <- countries[countries$continent == "Europe", ]
+european_countries
+
+# Calculate the average democracy_index
+mean(countries$democracy_index)
+```
+
+## Quiz: Test Your Knowledge
+
+```{r quiz}
+quiz(
+  question("Which function creates a vector in R?",
+    answer("vector()"),
+    answer("c()", correct = TRUE),
+    answer("list()"),
+    answer("data.frame()")
+  ),
+  
+  question("What happens when you combine numeric and character values in a vector?",
+    answer("You get an error"),
+    answer("The numbers remain numbers, the text remains text"),
+    answer("All elements are converted to characters", correct = TRUE),
+    answer("All elements are converted to numeric values")
+  ),
+  
+  question("Which of these is NOT a valid way to access the first element of a list named 'student'?",
+    answer("student$name", message = "This works if the first element is named 'name'"),
+    answer("student[[1]]", message = "This accesses the first element by position"),
+    answer("student[1]", message = "This returns a list containing the first element"),
+    answer("student(1)", correct = TRUE, message = "Correct! Lists use [[]] or $ for access, not ()")
+  ),
+  
+  question("What's the difference between a list and a data frame?",
+    answer("Lists can contain elements of different types, data frames cannot"),
+    answer("Data frames are 2-dimensional with equal-length columns, lists are more flexible", correct = TRUE),
+    answer("Lists can only contain simple values, data frames can contain vectors"),
+    answer("There is no difference, they're just different names for the same thing")
+  )
+)
+```
+
+## Congratulations!
+
+You've completed the tutorial on R data types and structures! 
+
+In the next tutorial, we'll explore data manipulation with dplyr!
